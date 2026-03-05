@@ -1,0 +1,1884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOOD COURT — Complete Build Manual</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Permanent+Marker&family=JetBrains+Mono:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap');
+
+:root {
+  --ink: #1a1208;
+  --paper: #f7f2e8;
+  --paper2: #efe8d5;
+  --yellow: #f5c518;
+  --yellow-dark: #c9960a;
+  --red: #d93025;
+  --red-light: #fdecea;
+  --green: #1e8c45;
+  --green-light: #e6f4ea;
+  --blue: #1a56a0;
+  --blue-light: #e8f0fc;
+  --orange: #e06c00;
+  --orange-light: #fff3e0;
+  --purple: #6b21a8;
+  --purple-light: #f3e8ff;
+  --cardboard: #c8914a;
+  --cardboard-light: #f0d4a8;
+  --phase1: #d93025;
+  --phase2: #e06c00;
+  --phase3: #1e8c45;
+  --phase4: #1a56a0;
+  --phase5: #6b21a8;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════════
+   COVER PAGE
+══════════════════════════════════════ */
+.cover {
+  min-height: 100vh;
+  background: var(--ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-noise {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.cover-stripe {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 8px;
+  background: repeating-linear-gradient(90deg, var(--yellow) 0px, var(--yellow) 40px, var(--red) 40px, var(--red) 80px, var(--green) 80px, var(--green) 120px, var(--blue) 120px, var(--blue) 160px);
+}
+
+.cover-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--yellow);
+  border: 1px solid rgba(245,197,24,0.4);
+  padding: 6px 20px;
+  margin-bottom: 32px;
+  text-transform: uppercase;
+}
+
+.cover h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(80px, 15vw, 140px);
+  letter-spacing: 12px;
+  color: var(--yellow);
+  line-height: 0.9;
+  text-align: center;
+  text-shadow: 6px 6px 0px rgba(201,150,10,0.4);
+}
+
+.cover-sub {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(20px, 4vw, 36px);
+  letter-spacing: 6px;
+  color: rgba(255,255,255,0.5);
+  margin-top: 8px;
+  text-align: center;
+}
+
+.cover-gavel {
+  font-size: 80px;
+  margin: 32px 0;
+  filter: drop-shadow(0 0 30px rgba(245,197,24,0.5));
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(-5deg); }
+  50% { transform: translateY(-12px) rotate(5deg); }
+}
+
+.cover-tagline {
+  font-family: 'Permanent Marker', cursive;
+  font-size: clamp(16px, 3vw, 24px);
+  color: rgba(255,255,255,0.7);
+  text-align: center;
+  max-width: 600px;
+  margin-top: 16px;
+}
+
+.cover-meta {
+  display: flex;
+  gap: 40px;
+  margin-top: 48px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.cover-stat {
+  text-align: center;
+}
+
+.cover-stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 42px;
+  color: var(--yellow);
+  line-height: 1;
+}
+
+.cover-stat-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.cover-bottom {
+  position: absolute;
+  bottom: 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 3px;
+}
+
+/* ══════════════════════════════════════
+   TABLE OF CONTENTS
+══════════════════════════════════════ */
+.toc-section {
+  background: var(--paper2);
+  padding: 60px 48px;
+  border-bottom: 3px solid var(--ink);
+}
+
+.toc-header {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  letter-spacing: 4px;
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.toc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.toc-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.toc-item:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0px var(--ink);
+}
+
+.toc-phase-dot {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  color: white;
+  flex-shrink: 0;
+}
+
+.toc-item-text strong {
+  font-weight: 800;
+  display: block;
+  font-size: 14px;
+}
+
+.toc-item-text span {
+  font-size: 12px;
+  color: #666;
+}
+
+/* ══════════════════════════════════════
+   PHASE SECTIONS
+══════════════════════════════════════ */
+.phase {
+  padding: 0;
+}
+
+.phase-header {
+  padding: 40px 48px 32px;
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  border-bottom: 2px solid rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.phase-number {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 80px;
+  line-height: 0.85;
+  opacity: 0.15;
+  flex-shrink: 0;
+}
+
+.phase-info {}
+
+.phase-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: 4px;
+}
+
+.phase-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 42px;
+  letter-spacing: 3px;
+  line-height: 1;
+}
+
+.phase-subtitle {
+  font-size: 14px;
+  opacity: 0.7;
+  margin-top: 6px;
+  max-width: 500px;
+}
+
+.phase-time-badge {
+  margin-left: auto;
+  flex-shrink: 0;
+  text-align: center;
+  padding: 12px 20px;
+  border: 2px solid currentColor;
+  border-radius: 4px;
+}
+
+.phase-time-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px;
+  line-height: 1;
+}
+
+.phase-time-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  opacity: 0.7;
+}
+
+/* Phase colors */
+.phase-1 { background: #fff8f8; }
+.phase-1 .phase-header { background: #fff0ef; color: var(--phase1); }
+.phase-2 { background: #fffaf5; }
+.phase-2 .phase-header { background: #fff3e0; color: var(--phase2); }
+.phase-3 { background: #f5fff8; }
+.phase-3 .phase-header { background: #e8f8ee; color: var(--phase3); }
+.phase-4 { background: #f5f8ff; }
+.phase-4 .phase-header { background: #e8f0fc; color: var(--phase4); }
+.phase-5 { background: #faf5ff; }
+.phase-5 .phase-header { background: #f3e8ff; color: var(--phase5); }
+
+/* ══════════════════════════════════════
+   STEP CARDS
+══════════════════════════════════════ */
+.steps-container {
+  padding: 32px 48px 48px;
+}
+
+.step-card {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 0;
+  margin-bottom: 24px;
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 3px 3px 0px rgba(0,0,0,0.12);
+}
+
+.step-num-col {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 20px 0;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  color: white;
+}
+
+.step-body {
+  padding: 20px 24px;
+  border-left: 2px solid var(--ink);
+}
+
+.step-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.step-title {
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.step-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  padding: 2px 8px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.tag-cut { background: #fdecea; color: var(--red); border: 1px solid var(--red); }
+.tag-assemble { background: #fff3e0; color: var(--orange); border: 1px solid var(--orange); }
+.tag-paint { background: #e8f0fc; color: var(--blue); border: 1px solid var(--blue); }
+.tag-glue { background: #e6f4ea; color: var(--green); border: 1px solid var(--green); }
+.tag-tech { background: #f3e8ff; color: var(--purple); border: 1px solid var(--purple); }
+.tag-final { background: #1a1208; color: var(--yellow); border: 1px solid var(--yellow-dark); }
+.tag-test { background: var(--cardboard-light); color: #7a4a10; border: 1px solid var(--cardboard); }
+
+.step-desc {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+/* Sub-steps */
+.sub-steps {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.sub-step {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 13px;
+  color: #444;
+  line-height: 1.5;
+}
+
+.sub-step-bullet {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 1px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Warning / tip / note boxes */
+.callout {
+  display: flex;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-top: 10px;
+}
+
+.callout-icon { font-size: 16px; flex-shrink: 0; }
+.callout-text {}
+.callout-text strong { font-weight: 800; }
+
+.callout-warn { background: #fff8e1; border-left: 3px solid #f5c518; }
+.callout-tip { background: #e8f8ee; border-left: 3px solid var(--green); }
+.callout-danger { background: #fdecea; border-left: 3px solid var(--red); }
+.callout-info { background: #e8f0fc; border-left: 3px solid var(--blue); }
+.callout-secret { background: #f3e8ff; border-left: 3px solid var(--purple); }
+
+/* Measurements */
+.measurements {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.measure-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--ink);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+
+.measure-chip .m-label { opacity: 0.5; font-size: 10px; }
+.measure-chip .m-val { color: var(--yellow); font-weight: 700; }
+
+/* Checklist */
+.checklist {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  padding: 4px 0;
+}
+
+.check-box {
+  width: 18px; height: 18px;
+  border: 2px solid var(--ink);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* Materials sidebar */
+.materials-bar {
+  background: var(--paper2);
+  border-top: 1px dashed rgba(0,0,0,0.2);
+  padding: 10px 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.mat-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #888;
+  margin-right: 4px;
+}
+
+.mat-chip {
+  font-size: 11px;
+  padding: 2px 8px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  color: #444;
+}
+
+/* ══════════════════════════════════════
+   WIRING DIAGRAM SECTION
+══════════════════════════════════════ */
+.wiring-section {
+  background: var(--ink);
+  padding: 48px;
+  color: white;
+}
+
+.wiring-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 42px;
+  letter-spacing: 4px;
+  color: var(--yellow);
+  margin-bottom: 8px;
+}
+
+.wiring-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 2px;
+  margin-bottom: 32px;
+}
+
+.wiring-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
+  margin: 32px 0;
+}
+
+.wire-node {
+  text-align: center;
+  padding: 20px 24px;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  min-width: 140px;
+  background: rgba(255,255,255,0.05);
+  position: relative;
+}
+
+.wire-node-icon { font-size: 36px; margin-bottom: 8px; }
+
+.wire-node-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 2px;
+  color: var(--yellow);
+}
+
+.wire-node-detail {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 1px;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.wire-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 8px;
+}
+
+.wire-line {
+  height: 2px;
+  width: 60px;
+  background: linear-gradient(90deg, rgba(245,197,24,0.4), var(--yellow), rgba(245,197,24,0.4));
+}
+
+.wire-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  color: var(--yellow);
+  letter-spacing: 1px;
+  margin-top: 4px;
+  white-space: nowrap;
+}
+
+.wire-arrow-head {
+  font-size: 16px;
+  color: var(--yellow);
+  margin-left: -8px;
+}
+
+/* Software stack */
+.software-stack {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.sw-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  padding: 16px;
+}
+
+.sw-card-icon { font-size: 24px; margin-bottom: 8px; }
+
+.sw-card-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--yellow);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.sw-card-role {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.4;
+}
+
+.sw-install {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  background: rgba(0,0,0,0.4);
+  color: #80ff80;
+  padding: 4px 8px;
+  border-radius: 3px;
+  margin-top: 8px;
+  display: inline-block;
+}
+
+/* ══════════════════════════════════════
+   DEMO SCRIPT
+══════════════════════════════════════ */
+.demo-section {
+  background: var(--yellow);
+  padding: 48px;
+}
+
+.demo-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  letter-spacing: 4px;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.demo-sub {
+  font-size: 14px;
+  color: rgba(0,0,0,0.6);
+  margin-bottom: 32px;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 80px 40px 1fr;
+  gap: 16px;
+  align-items: start;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.timeline-item:last-child { border-bottom: none; }
+
+.tl-time {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  color: var(--ink);
+  text-align: right;
+  line-height: 1;
+  padding-top: 2px;
+}
+
+.tl-time-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: rgba(0,0,0,0.4);
+  text-align: right;
+  display: block;
+}
+
+.tl-dot-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 6px;
+}
+
+.tl-dot {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--ink);
+  flex-shrink: 0;
+}
+
+.tl-line {
+  width: 2px;
+  flex: 1;
+  background: rgba(0,0,0,0.2);
+  margin-top: 4px;
+  min-height: 30px;
+}
+
+.tl-content {}
+
+.tl-actor {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: rgba(0,0,0,0.5);
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.tl-action {
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.tl-detail {
+  font-size: 13px;
+  color: rgba(0,0,0,0.65);
+  line-height: 1.5;
+}
+
+.tl-screen {
+  display: inline-block;
+  background: var(--ink);
+  color: var(--yellow);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 3px;
+  margin-top: 6px;
+}
+
+/* ══════════════════════════════════════
+   EMOTION REACTIONS TABLE
+══════════════════════════════════════ */
+.reactions-section {
+  padding: 48px;
+  background: var(--paper);
+}
+
+.reactions-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 42px;
+  letter-spacing: 4px;
+  margin-bottom: 8px;
+}
+
+.reactions-sub {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 32px;
+}
+
+.reactions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.reaction-card {
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+}
+
+.reaction-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+}
+
+.reaction-emoji { font-size: 32px; }
+
+.reaction-emotion {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  letter-spacing: 2px;
+}
+
+.reaction-body {
+  padding: 14px 16px;
+  background: white;
+  border-top: 2px solid var(--ink);
+}
+
+.reaction-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.reaction-row:last-child { margin-bottom: 0; }
+
+.r-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #999;
+  width: 70px;
+  flex-shrink: 0;
+  padding-top: 2px;
+  text-transform: uppercase;
+}
+
+.r-val { color: #222; line-height: 1.4; }
+
+/* ══════════════════════════════════════
+   FINAL CHECKLIST
+══════════════════════════════════════ */
+.final-section {
+  background: var(--ink);
+  padding: 48px;
+  color: white;
+}
+
+.final-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  letter-spacing: 4px;
+  color: var(--yellow);
+  margin-bottom: 32px;
+}
+
+.checklist-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.checklist-group {}
+
+.checklist-group-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 2px;
+  color: var(--yellow);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(245,197,24,0.3);
+}
+
+.final-check {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 14px;
+  color: rgba(255,255,255,0.8);
+}
+
+.f-box {
+  width: 20px; height: 20px;
+  border: 2px solid var(--yellow);
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* Print footer */
+.print-footer {
+  background: var(--paper2);
+  padding: 24px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 2px solid var(--ink);
+}
+
+.pf-left {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 3px;
+}
+
+.pf-right {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: #888;
+  text-align: right;
+}
+
+@media print {
+  .phase-header { position: static; }
+  body { font-size: 13px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     COVER
+════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-noise"></div>
+  <div class="cover-stripe"></div>
+  <div class="cover-badge">⚖ University CS Exhibition · Complete Build Manual · Rev 1.0</div>
+  <h1>MOOD<br>COURT</h1>
+  <div class="cover-sub">You're On Trial For How You Feel</div>
+  <div class="cover-gavel">⚖️</div>
+  <div class="cover-tagline">"Point your face at the camera. The verdict is already decided. You just don't know it yet."</div>
+  <div class="cover-meta">
+    <div class="cover-stat">
+      <div class="cover-stat-num">3</div>
+      <div class="cover-stat-label">Hours Build</div>
+    </div>
+    <div class="cover-stat">
+      <div class="cover-stat-num">$0</div>
+      <div class="cover-stat-label">Budget</div>
+    </div>
+    <div class="cover-stat">
+      <div class="cover-stat-num">5</div>
+      <div class="cover-stat-label">Build Phases</div>
+    </div>
+    <div class="cover-stat">
+      <div class="cover-stat-num">1</div>
+      <div class="cover-stat-label">USB Cable</div>
+    </div>
+    <div class="cover-stat">
+      <div class="cover-stat-num">∞</div>
+      <div class="cover-stat-label">Verdicts</div>
+    </div>
+  </div>
+  <div class="cover-bottom">MOOD COURT BUILD MANUAL · CS EXHIBITION · 48-HOUR SPRINT</div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     TABLE OF CONTENTS
+════════════════════════════════════════ -->
+<div class="toc-section">
+  <div class="toc-header">📋 What's Inside</div>
+  <div class="toc-grid">
+    <div class="toc-item">
+      <div class="toc-phase-dot" style="background:var(--phase1)">1</div>
+      <div class="toc-item-text">
+        <strong>PHASE 1 — The Judge's Bench</strong>
+        <span>Build the cardboard podium structure · ~45 min</span>
+      </div>
+    </div>
+    <div class="toc-item">
+      <div class="toc-phase-dot" style="background:var(--phase2)">2</div>
+      <div class="toc-item-text">
+        <strong>PHASE 2 — Paint & Finish</strong>
+        <span>Make cardboard look like real product · ~30 min</span>
+      </div>
+    </div>
+    <div class="toc-item">
+      <div class="toc-phase-dot" style="background:var(--phase3)">3</div>
+      <div class="toc-item-text">
+        <strong>PHASE 3 — Props & Signs</strong>
+        <span>Gavel, plaque, witness stand X · ~30 min</span>
+      </div>
+    </div>
+    <div class="toc-item">
+      <div class="toc-phase-dot" style="background:var(--phase4)">4</div>
+      <div class="toc-item-text">
+        <strong>PHASE 4 — Tech Setup</strong>
+        <span>Webcam mount, software install, test run · ~45 min</span>
+      </div>
+    </div>
+    <div class="toc-item">
+      <div class="toc-phase-dot" style="background:var(--phase5)">5</div>
+      <div class="toc-item-text">
+        <strong>PHASE 5 — Final Assembly</strong>
+        <span>Cable management, positioning, dress rehearsal · ~30 min</span>
+      </div>
+    </div>
+    <div class="toc-item">
+      <div class="toc-phase-dot" style="background:#333">⚡</div>
+      <div class="toc-item-text">
+        <strong>WIRING + SOFTWARE DIAGRAM</strong>
+        <span>Exactly one USB cable. No internet. Local only.</span>
+      </div>
+    </div>
+    <div class="toc-item">
+      <div class="toc-phase-dot" style="background:var(--yellow-dark)">🎬</div>
+      <div class="toc-item-text">
+        <strong>DEMO SCRIPT</strong>
+        <span>Second-by-second judge walkthrough</span>
+      </div>
+    </div>
+    <div class="toc-item">
+      <div class="toc-phase-dot" style="background:#555">✅</div>
+      <div class="toc-item-text">
+        <strong>FINAL CHECKLIST</strong>
+        <span>Don't walk in without checking every box</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PHASE 1 — THE BENCH
+════════════════════════════════════════ -->
+<div class="phase phase-1">
+  <div class="phase-header">
+    <div class="phase-number" style="color:var(--phase1)">01</div>
+    <div class="phase-info">
+      <div class="phase-label">Physical Build · Phase One</div>
+      <div class="phase-title" style="color:var(--phase1)">THE JUDGE'S BENCH</div>
+      <div class="phase-subtitle">Build the main cardboard podium that holds the laptop and acts as the "courtroom bench." This is your biggest structural piece — do it first.</div>
+    </div>
+    <div class="phase-time-badge" style="color:var(--phase1)">
+      <div class="phase-time-num">45</div>
+      <div class="phase-time-label">minutes</div>
+    </div>
+  </div>
+
+  <div class="steps-container">
+
+    <div class="step-card">
+      <div class="step-num-col" style="background:var(--phase1)">1</div>
+      <div>
+        <div class="step-body">
+          <div class="step-title-row">
+            <span class="step-title">Gather Your Cardboard Boxes</span>
+            <span class="step-tag tag-assemble">Assemble</span>
+          </div>
+          <div class="step-desc">Find 2 medium-to-large cardboard boxes (think: shoe box, cereal box, delivery box). They don't need to match — you will cover everything later. Stronger/thicker cardboard = more stable bench. Double-walled cardboard is ideal.</div>
+          <ul class="sub-steps">
+            <li class="sub-step"><div class="sub-step-bullet">a</div><span>Box 1 (Bottom): The largest you have. Aim for roughly 40cm wide × 30cm deep × 30cm tall.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">b</div><span>Box 2 (Top): Slightly smaller or same size. Will sit on top of Box 1.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">c</div><span>Make sure both boxes are closed and sealed. If open, tape all flaps shut with masking tape first.</span></li>
+          </ul>
+          <div class="measurements">
+            <div class="measure-chip"><span class="m-label">TOTAL HEIGHT</span><span class="m-val">~70–80cm</span></div>
+            <div class="measure-chip"><span class="m-label">WIDTH</span><span class="m-val">~50–60cm</span></div>
+            <div class="measure-chip"><span class="m-label">DEPTH</span><span class="m-val">~30–35cm</span></div>
+          </div>
+        </div>
+        <div class="materials-bar">
+          <span class="mat-label">MATERIALS:</span>
+          <span class="mat-chip">📦 2× Cardboard Boxes</span>
+          <span class="mat-chip">🖊 Marker pen (for marking cuts)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num-col" style="background:var(--phase1)">2</div>
+      <div>
+        <div class="step-body">
+          <div class="step-title-row">
+            <span class="step-title">Stack and Bond the Two Boxes</span>
+            <span class="step-tag tag-glue">Glue</span>
+            <span class="step-tag tag-assemble">Assemble</span>
+          </div>
+          <div class="step-desc">Place Box 2 on top of Box 1. Center it so there is equal overhang (or no overhang — flush is fine too). This two-box stack becomes the bench body.</div>
+          <ul class="sub-steps">
+            <li class="sub-step"><div class="sub-step-bullet">a</div><span>Apply a thick line of hot glue OR white glue around the entire perimeter of Box 1's top surface.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">b</div><span>Press Box 2 down firmly. Hold for 30 seconds.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">c</div><span>Reinforce ALL 4 vertical seams where the boxes meet using 5cm wide masking tape strips. Run the tape vertically across the joint.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">d</div><span>Test stability: push the top box sideways. If it wobbles, add more tape on the seams. It must feel like one rigid object.</span></li>
+          </ul>
+          <div class="callout callout-warn">
+            <div class="callout-icon">⚠️</div>
+            <div class="callout-text"><strong>Stability is everything.</strong> If the bench wobbles and the laptop slides off during the demo, it destroys the illusion instantly. Over-tape is better than under-tape.</div>
+          </div>
+        </div>
+        <div class="materials-bar">
+          <span class="mat-label">MATERIALS:</span>
+          <span class="mat-chip">🔫 Hot glue gun OR white glue</span>
+          <span class="mat-chip">🎨 Masking tape (wide)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num-col" style="background:var(--phase1)">3</div>
+      <div>
+        <div class="step-body">
+          <div class="step-title-row">
+            <span class="step-title">Cut the Laptop Shelf Notch</span>
+            <span class="step-tag tag-cut">Cut</span>
+          </div>
+          <div class="step-desc">The laptop needs to sit on top of the bench at a slight angle (like a real podium) so the screen faces the visitor. Cut a small wedge from a piece of scrap cardboard to act as an angled laptop prop.</div>
+          <ul class="sub-steps">
+            <li class="sub-step"><div class="sub-step-bullet">a</div><span>Cut a rectangle of scrap cardboard: 20cm × 10cm.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">b</div><span>Fold it at 5cm from one end. This creates an L-shape "foot" that props the laptop back edge up by ~3–4cm, tilting the screen toward the visitor.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">c</div><span>Place the laptop on top of the bench. Slide the L-wedge under the laptop's back edge. Tape the wedge to the bench top so it doesn't slide.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">d</div><span>Verify the screen faces a person standing ~70cm away at a natural eye angle. Adjust wedge height if needed.</span></li>
+          </ul>
+          <div class="callout callout-tip">
+            <div class="callout-icon">💡</div>
+            <div class="callout-text"><strong>Ideal screen angle:</strong> 10–15° tilt back. The visitor should see the screen clearly without bending down or craning up. Stand at the X mark and verify.</div>
+          </div>
+          <div class="measurements">
+            <div class="measure-chip"><span class="m-label">WEDGE HEIGHT</span><span class="m-val">3–4 cm</span></div>
+            <div class="measure-chip"><span class="m-label">SCREEN TILT</span><span class="m-val">10–15°</span></div>
+            <div class="measure-chip"><span class="m-label">VISITOR DISTANCE</span><span class="m-val">~70 cm</span></div>
+          </div>
+        </div>
+        <div class="materials-bar">
+          <span class="mat-label">MATERIALS:</span>
+          <span class="mat-chip">📦 Scrap cardboard</span>
+          <span class="mat-chip">✂️ Scissors or box cutter</span>
+          <span class="mat-chip">🎨 Tape</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num-col" style="background:var(--phase1)">4</div>
+      <div>
+        <div class="step-body">
+          <div class="step-title-row">
+            <span class="step-title">Add Internal Bracing (If Wobbly)</span>
+            <span class="step-tag tag-assemble">Assemble</span>
+          </div>
+          <div class="step-desc">If the structure feels unstable, cut two cardboard strips and insert them diagonally inside Box 1 to create an internal X-brace. This is the trick builders use in large cardboard sculptures.</div>
+          <ul class="sub-steps">
+            <li class="sub-step"><div class="sub-step-bullet">a</div><span>Cut 2 strips of cardboard: each ~40cm × 8cm (matching Box 1's internal diagonal length).</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">b</div><span>Cut a notch halfway through each strip at the center point.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">c</div><span>Slot the two strips together at the notches to form an X shape.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">d</div><span>Insert this X brace inside Box 1 (through a flap opening if needed, then re-tape). The bench will feel dramatically more rigid.</span></li>
+          </ul>
+          <div class="callout callout-secret">
+            <div class="callout-icon">🏗️</div>
+            <div class="callout-text"><strong>Engineering note:</strong> This X-brace technique is literally the same method used in architectural cardboard modeling and emergency shelter construction. It's surprisingly strong.</div>
+          </div>
+        </div>
+        <div class="materials-bar">
+          <span class="mat-label">MATERIALS:</span>
+          <span class="mat-chip">📦 Scrap cardboard strips</span>
+          <span class="mat-chip">✂️ Box cutter</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PHASE 2 — PAINT & FINISH
+════════════════════════════════════════ -->
+<div class="phase phase-2">
+  <div class="phase-header">
+    <div class="phase-number" style="color:var(--phase2)">02</div>
+    <div class="phase-info">
+      <div class="phase-label">Physical Build · Phase Two</div>
+      <div class="phase-title" style="color:var(--phase2)">PAINT & FINISH</div>
+      <div class="phase-subtitle">This phase is the magic trick. Raw brown cardboard looks like a school project. Matte black cardboard looks like a tech product. One coat changes everything.</div>
+    </div>
+    <div class="phase-time-badge" style="color:var(--phase2)">
+      <div class="phase-time-num">30</div>
+      <div class="phase-time-label">minutes</div>
+    </div>
+  </div>
+
+  <div class="steps-container">
+
+    <div class="step-card">
+      <div class="step-num-col" style="background:var(--phase2)">5</div>
+      <div>
+        <div class="step-body">
+          <div class="step-title-row">
+            <span class="step-title">Cover the Bench in Black Paper First</span>
+            <span class="step-tag tag-assemble">Assemble</span>
+          </div>
+          <div class="step-desc">Before any paint, wrap the entire bench structure in black chart paper or black craft paper. This fills gaps, hides seams, and gives a uniform surface for painting. Think of it like priming a canvas.</div>
+          <ul class="sub-steps">
+            <li class="sub-step"><div class="sub-step-bullet">a</div><span>Cut black paper into large sheets. Wrap each face of the bench like a gift, folding and taping edges to the back.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">b</div><span>Use a glue stick or double-sided tape to attach sheets flat — no wrinkles or bubbles.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">c</div><span>Cover all 5 visible sides: front, left, right, back, and top. You don't need the underside.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">d</div><span>Tape all edges with black electrical tape for a clean, finished border on every edge of the bench.</span></li>
+          </ul>
+          <div class="callout callout-info">
+            <div class="callout-icon">🛒</div>
+            <div class="callout-text"><strong>Where to get black chart paper:</strong> Any stationery shop in Pakistan sells A1 size black chart paper for ~₨30–50 per sheet. You need 3–4 sheets total.</div>
+          </div>
+        </div>
+        <div class="materials-bar">
+          <span class="mat-label">MATERIALS:</span>
+          <span class="mat-chip">📄 Black chart paper (3–4 A1 sheets)</span>
+          <span class="mat-chip">🖊 Glue stick</span>
+          <span class="mat-chip">🔌 Black electrical tape</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num-col" style="background:var(--phase2)">6</div>
+      <div>
+        <div class="step-body">
+          <div class="step-title-row">
+            <span class="step-title">Add Yellow Accent Tape Lines</span>
+            <span class="step-tag tag-assemble">Assemble</span>
+          </div>
+          <div class="step-desc">Run 2–3 horizontal strips of yellow washi tape or yellow electrical tape across the front face of the bench. These accent lines make it look like a designed product, not just a painted box. Keep them perfectly level.</div>
+          <ul class="sub-steps">
+            <li class="sub-step"><div class="sub-step-bullet">a</div><span>First stripe: 4cm from the top edge of the front face — run yellow tape horizontally end to end.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">b</div><span>Second stripe: 4cm from the bottom edge of the front face.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">c</div><span>Optional third stripe: dead center of the front face.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">d</div><span>Use a ruler to keep lines perfectly horizontal. Crooked tape lines immediately break the illusion.</span></li>
+          </ul>
+          <div class="callout callout-tip">
+            <div class="callout-icon">✨</div>
+            <div class="callout-text"><strong>The yellow is intentional.</strong> It matches the yellow accent color of the on-screen verdict text. The physical prop and the software share the same color language. Judges notice this cohesion.</div>
+          </div>
+        </div>
+        <div class="materials-bar">
+          <span class="mat-label">MATERIALS:</span>
+          <span class="mat-chip">💛 Yellow washi/electrical tape</span>
+          <span class="mat-chip">📏 Ruler</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num-col" style="background:var(--phase2)">7</div>
+      <div>
+        <div class="step-body">
+          <div class="step-title-row">
+            <span class="step-title">Add Decorative "Tech Details"</span>
+            <span class="step-tag tag-assemble">Assemble</span>
+          </div>
+          <div class="step-desc">Stick on a few fake technical-looking details. These are purely decorative but they trigger the brain's "this is a real device" response in viewers.</div>
+          <ul class="sub-steps">
+            <li class="sub-step"><div class="sub-step-bullet">a</div><span><strong>Fake ventilation grille:</strong> Cut a 8×4cm rectangle from cardboard. Score horizontal lines 5mm apart with a pen (don't cut through). Glue to the right side of the bench front.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">b</div><span><strong>Fake status LED:</strong> Cut a tiny 1cm circle of red cellophane or red marker on white paper. Stick it near the bottom-right corner. Label underneath in tiny text: "SYS STATUS".</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">c</div><span><strong>Serial number sticker:</strong> Write "MC-7742-COURT-UNIT" on a small white label and stick it on the side of the bench. This level of detail makes people look twice.</span></li>
+          </ul>
+        </div>
+        <div class="materials-bar">
+          <span class="mat-label">MATERIALS:</span>
+          <span class="mat-chip">📦 Scrap cardboard</span>
+          <span class="mat-chip">🔴 Red marker / cellophane</span>
+          <span class="mat-chip">🏷️ White sticker labels</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PHASE 3 — PROPS & SIGNS
+════════════════════════════════════════ -->
+<div class="phase phase-3">
+  <div class="phase-header">
+    <div class="phase-number" style="color:var(--phase3)">03</div>
+    <div class="phase-info">
+      <div class="phase-label">Physical Build · Phase Three</div>
+      <div class="phase-title" style="color:var(--phase3)">PROPS & SIGNS</div>
+      <div class="phase-subtitle">These small props do enormous storytelling work. The gavel alone communicates "courtroom" before anyone reads a word.</div>
+    </div>
+    <div class="phase-time-badge" style="color:var(--phase3)">
+      <div class="phase-time-num">30</div>
+      <div class="phase-time-label">minutes</div>
+    </div>
+  </div>
+
+  <div class="steps-container">
+
+    <div class="step-card">
+      <div class="step-num-col" style="background:var(--phase3)">8</div>
+      <div>
+        <div class="step-body">
+          <div class="step-title-row">
+            <span class="step-title">Build the Cardboard Gavel</span>
+            <span class="step-tag tag-cut">Cut</span>
+            <span class="step-tag tag-glue">Glue</span>
+          </div>
+          <div class="step-desc">The gavel is your single most important prop. It immediately tells visitors this is a courtroom. It takes 10 minutes to make.</div>
+          <ul class="sub-steps">
+            <li class="sub-step"><div class="sub-step-bullet">a</div><span><strong>Head:</strong> Cut 3 identical rectangles of thick cardboard: each 8cm × 5cm. Stack and glue all 3 together (making a thick block). Let dry. This is the gavel head.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">b</div><span><strong>Handle:</strong> A pencil, chopstick, or rolled tight cardboard tube ~18cm long.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">c</div><span><strong>Join:</strong> Hot-glue the handle into a notch cut in the center of the gavel head (cut a slot just wide enough for the handle).</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">d</div><span><strong>Finish:</strong> Wrap head in brown paper or tan-colored paper. Wrap handle in black electrical tape. Result: a convincing wooden-look gavel.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">e</div><span><strong>Gavel block:</strong> Cut a small square platform (8×8cm, 3 layers thick cardboard glued). Wrap in same brown paper. Place gavel resting on this block on the bench top-left.</span></li>
+          </ul>
+          <div class="measurements">
+            <div class="measure-chip"><span class="m-label">HEAD SIZE</span><span class="m-val">8 × 5 × 3cm</span></div>
+            <div class="measure-chip"><span class="m-label">HANDLE</span><span class="m-val">18cm long</span></div>
+            <div class="measure-chip"><span class="m-label">BLOCK</span><span class="m-val">8 × 8cm square</span></div>
+          </div>
+        </div>
+        <div class="materials-bar">
+          <span class="mat-label">MATERIALS:</span>
+          <span class="mat-chip">📦 Thick cardboard</span>
+          <span class="mat-chip">✏️ Pencil or chopstick</span>
+          <span class="mat-chip">📄 Brown/tan paper</span>
+          <span class="mat-chip">🔌 Black electrical tape</span>
+          <span class="mat-chip">🔫 Hot glue</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num-col" style="background:var(--phase3)">9</div>
+      <div>
+        <div class="step-body">
+          <div class="step-title-row">
+            <span class="step-title">Make the Front Nameplate</span>
+            <span class="step-tag tag-assemble">Assemble</span>
+          </div>
+          <div class="step-desc">A nameplate on the front of the bench tells everyone exactly what they're looking at before they even get close. This is the first thing a judge reads.</div>
+          <ul class="sub-steps">
+            <li class="sub-step"><div class="sub-step-bullet">a</div><span>Cut a rectangle of white card or cardboard: 30cm × 8cm.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">b</div><span>In the LARGEST black marker you have, write: <strong>⚖ MOOD COURT</strong> on the top line.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">c</div><span>Below it in smaller text: <strong>POPULATION: YOU</strong></span></li>
+            <li class="sub-step"><div class="sub-step-bullet">d</div><span>Border the card with a thin yellow tape frame around all 4 edges.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">e</div><span>Glue or tape to the CENTER of the bench front face, between the two yellow accent stripes.</span></li>
+          </ul>
+          <div class="callout callout-tip">
+            <div class="callout-icon">🖨️</div>
+            <div class="callout-text"><strong>Even better:</strong> Print the nameplate in a bold font (Bebas Neue or Impact) at large size, cut it out, and glue it. Printed text looks dramatically more professional than handwriting from 2 meters away.</div>
+          </div>
+        </div>
+        <div class="materials-bar">
+          <span class="mat-label">MATERIALS:</span>
+          <span class="mat-chip">📄 White card</span>
+          <span class="mat-chip">🖊 Bold black marker</span>
+          <span class="mat-chip">💛 Yellow tape</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num-col" style="background:var(--phase3)">10</div>
+      <div>
+        <div class="step-body">
+          <div class="step-title-row">
+            <span class="step-title">Make the "STAND HERE" Floor Sign</span>
+            <span class="step-tag tag-assemble">Assemble</span>
+          </div>
+          <div class="step-desc">The floor X is the most important visitor interaction guide. It defines where to stand so the webcam captures the face correctly. Without it, people stand in wrong spots and the detection fails.</div>
+          <ul class="sub-steps">
+            <li class="sub-step"><div class="sub-step-bullet">a</div><span><strong>The X:</strong> Lay two ~40cm strips of bright yellow electrical tape on the floor in an X shape. Place the X exactly 65–70cm in front of the webcam lens. This is the tested detection sweet spot.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">b</div><span><strong>The sign stake:</strong> Tape a white index card to a pencil/chopstick. Write on the card: <em>"STAND ON THE X → YOUR FACE IS EVIDENCE ⚖"</em></span></li>
+            <li class="sub-step"><div class="sub-step-bullet">c</div><span>Plant the stake in a small ball of paper/tape next to the X so it stands upright on its own, pointing at the X mark.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">d</div><span><strong>Distance test:</strong> Stand on the X yourself, look at the webcam. Run the software. Verify your face is detected within 2 seconds. Adjust X position if not.</span></li>
+          </ul>
+          <div class="callout callout-danger">
+            <div class="callout-icon">🚨</div>
+            <div class="callout-text"><strong>Critical:</strong> The X must be at the correct distance for DeepFace to reliably detect emotion. Too far = no detection. Too close = only forehead visible. Test and measure before the exhibition day.</div>
+          </div>
+          <div class="measurements">
+            <div class="measure-chip"><span class="m-label">X DISTANCE FROM WEBCAM</span><span class="m-val">65–70 cm</span></div>
+            <div class="measure-chip"><span class="m-label">X TAPE STRIP LENGTH</span><span class="m-val">~40 cm each</span></div>
+          </div>
+        </div>
+        <div class="materials-bar">
+          <span class="mat-label">MATERIALS:</span>
+          <span class="mat-chip">💛 Yellow electrical tape</span>
+          <span class="mat-chip">📄 White index card</span>
+          <span class="mat-chip">✏️ Pencil/stick</span>
+          <span class="mat-chip">📏 Measuring tape</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num-col" style="background:var(--phase3)">11</div>
+      <div>
+        <div class="step-body">
+          <div class="step-title-row">
+            <span class="step-title">Make the Museum Info Plaque</span>
+            <span class="step-tag tag-assemble">Assemble</span>
+          </div>
+          <div class="step-desc">A small folded information card in front of the bench — exactly like in a museum. It signals "this is a serious exhibit" to any judge who walks past.</div>
+          <ul class="sub-steps">
+            <li class="sub-step"><div class="sub-step-bullet">a</div><span>Fold an A5 piece of white card in half to make a self-standing tent card.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">b</div><span>On the front face write or print:<br/><em>MOOD COURT v1.0</em><br/><em>Affective Computing · Real-Time Emotion Detection</em><br/><em>Interaction: Stand on X · Await Verdict</em></span></li>
+            <li class="sub-step"><div class="sub-step-bullet">c</div><span>On the back, list the tech stack in small text: Python · DeepFace · Pygame · OpenCV · No Internet Required.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">d</div><span>Place this tent card on the bench top-right, next to where the gavel sits.</span></li>
+          </ul>
+        </div>
+        <div class="materials-bar">
+          <span class="mat-label">MATERIALS:</span>
+          <span class="mat-chip">📄 A5 white card</span>
+          <span class="mat-chip">🖊 Marker or printer</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PHASE 4 — TECH SETUP
+════════════════════════════════════════ -->
+<div class="phase phase-4">
+  <div class="phase-header">
+    <div class="phase-number" style="color:var(--phase4)">04</div>
+    <div class="phase-info">
+      <div class="phase-label">Software & Hardware · Phase Four</div>
+      <div class="phase-title" style="color:var(--phase4)">TECH SETUP</div>
+      <div class="phase-subtitle">Mount the webcam, install dependencies, run the software. The tech side is simpler than the physical build — it's just one USB cable and three pip installs.</div>
+    </div>
+    <div class="phase-time-badge" style="color:var(--phase4)">
+      <div class="phase-time-num">45</div>
+      <div class="phase-time-label">minutes</div>
+    </div>
+  </div>
+
+  <div class="steps-container">
+
+    <div class="step-card">
+      <div class="step-num-col" style="background:var(--phase4)">12</div>
+      <div>
+        <div class="step-body">
+          <div class="step-title-row">
+            <span class="step-title">Mount the Webcam on the Laptop Screen</span>
+            <span class="step-tag tag-tech">Tech</span>
+            <span class="step-tag tag-assemble">Assemble</span>
+          </div>
+          <div class="step-desc">The webcam clips to the top edge of the laptop screen or sits on the bench surface aimed at the visitor X mark. This is the only hardware connection in the entire project.</div>
+          <ul class="sub-steps">
+            <li class="sub-step"><div class="sub-step-bullet">a</div><span><strong>If your webcam has a clip:</strong> Clip it directly to the top center of the laptop screen. Angle the lens slightly downward (~10°) to capture faces of people standing 70cm away.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">b</div><span><strong>If your webcam has no clip:</strong> Cut a small cardboard bracket that holds it on top of the bench surface, aimed at the X mark at face height. Tape the bracket firmly to the bench top.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">c</div><span><strong>Cable routing:</strong> Run the USB cable down behind the laptop, along the back of the bench, and under the table. Tape every 15cm with black tape so no cable is visible from the front.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">d</div><span>Plug USB into laptop. Open a webcam test app (or run <code>python -c "import cv2; cap=cv2.VideoCapture(0); print(cap.read())"</code>) to verify it works.</span></li>
+          </ul>
+          <div class="callout callout-info">
+            <div class="callout-icon">📷</div>
+            <div class="callout-text"><strong>If you don't have an external webcam:</strong> Use the laptop's built-in webcam. Place the laptop so the built-in camera faces the visitor. The bench design still works — the laptop just sits flat-open on top.</div>
+          </div>
+        </div>
+        <div class="materials-bar">
+          <span class="mat-label">HARDWARE:</span>
+          <span class="mat-chip">📷 USB Webcam (or built-in)</span>
+          <span class="mat-chip">🔌 USB-A cable</span>
+          <span class="mat-chip">🔌 Black tape (cable management)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num-col" style="background:var(--phase4)">13</div>
+      <div>
+        <div class="step-body">
+          <div class="step-title-row">
+            <span class="step-title">Install Software Dependencies</span>
+            <span class="step-tag tag-tech">Tech</span>
+          </div>
+          <div class="step-desc">Open your terminal and run these three commands in order. Do this at home on WiFi — not at the exhibition (DeepFace is a large download ~500MB first time).</div>
+          <ul class="sub-steps">
+            <li class="sub-step"><div class="sub-step-bullet">1</div><span><code style="background:#f0f0f0;padding:2px 6px;border-radius:3px;font-size:12px;">pip install deepface</code> — Downloads the facial emotion recognition models (includes TensorFlow). This is the big one. Give it 5–10 minutes.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">2</div><span><code style="background:#f0f0f0;padding:2px 6px;border-radius:3px;font-size:12px;">pip install pygame</code> — The game engine that renders the animated courtroom scene.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">3</div><span><code style="background:#f0f0f0;padding:2px 6px;border-radius:3px;font-size:12px;">pip install opencv-python</code> — Handles webcam capture.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">4</div><span>Run the app once at home: <code style="background:#f0f0f0;padding:2px 6px;border-radius:3px;font-size:12px;">python moodcourt.py</code> — First run downloads additional model weights. Subsequent runs start instantly.</span></li>
+          </ul>
+          <div class="callout callout-danger">
+            <div class="callout-icon">🚨</div>
+            <div class="callout-text"><strong>Do NOT skip the first test run at home.</strong> DeepFace downloads ~200MB of model weights on first emotion analysis. If you first run at the exhibition on slow WiFi, it will fail or lag badly.</div>
+          </div>
+        </div>
+        <div class="materials-bar">
+          <span class="mat-label">REQUIRES:</span>
+          <span class="mat-chip">🐍 Python 3.8+</span>
+          <span class="mat-chip">📶 WiFi (for install only)</span>
+          <span class="mat-chip">💾 ~600MB disk space</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num-col" style="background:var(--phase4)">14</div>
+      <div>
+        <div class="step-body">
+          <div class="step-title-row">
+            <span class="step-title">Test All 7 Emotion States</span>
+            <span class="step-tag tag-test">Test</span>
+          </div>
+          <div class="step-desc">Before the exhibition, sit in front of the webcam and verify every emotion triggers the correct courtroom scene. Use exaggerated expressions — the detection works better with big expressions.</div>
+          <ul class="sub-steps">
+            <li class="sub-step"><div class="sub-step-bullet">😄</div><span><strong>HAPPY:</strong> Big genuine smile. Should trigger yellow/gold confetti scene within 1–2 seconds.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">😠</div><span><strong>ANGRY:</strong> Frown hard, furrow brows. Should trigger red shaking courtroom scene.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">😲</div><span><strong>SURPRISED:</strong> Raise eyebrows fully, open mouth. Should trigger explosion/chaos scene.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">😢</div><span><strong>SAD:</strong> Frown downward, look slightly down. Should trigger rainy blue scene.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">😨</div><span><strong>FEAR:</strong> Wide eyes, slight open mouth. Should trigger purple/dark scene.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">😐</div><span><strong>NEUTRAL:</strong> Blank face. Should trigger grey "awaiting evidence" scene.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">🤢</div><span><strong>DISGUST:</strong> Wrinkle nose, squint. Should trigger green murky scene.</span></li>
+          </ul>
+          <div class="callout callout-warn">
+            <div class="callout-icon">⚠️</div>
+            <div class="callout-text"><strong>Lighting matters enormously.</strong> Test in the same lighting as the exhibition hall. Dark rooms = poor detection. Bring a small desk lamp to aim at the visitor's face if the hall is dim.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PHASE 5 — FINAL ASSEMBLY
+════════════════════════════════════════ -->
+<div class="phase phase-5">
+  <div class="phase-header">
+    <div class="phase-number" style="color:var(--phase5)">05</div>
+    <div class="phase-info">
+      <div class="phase-label">Final Assembly · Phase Five</div>
+      <div class="phase-title" style="color:var(--phase5)">FINAL ASSEMBLY</div>
+      <div class="phase-subtitle">Bring everything together. Place, position, cable-manage, and do a full dress rehearsal. This phase is about polish — the difference between "looks amateur" and "looks shipped."</div>
+    </div>
+    <div class="phase-time-badge" style="color:var(--phase5)">
+      <div class="phase-time-num">30</div>
+      <div class="phase-time-label">minutes</div>
+    </div>
+  </div>
+
+  <div class="steps-container">
+
+    <div class="step-card">
+      <div class="step-num-col" style="background:var(--phase5)">15</div>
+      <div>
+        <div class="step-body">
+          <div class="step-title-row">
+            <span class="step-title">Set Up the Exhibition Table Layout</span>
+            <span class="step-tag tag-final">Final</span>
+          </div>
+          <div class="step-desc">Position every element relative to each other. The spatial layout is the first thing a judge sees from across the room.</div>
+          <ul class="sub-steps">
+            <li class="sub-step"><div class="sub-step-bullet">a</div><span>Place the bench on the exhibition table. Push it to the back edge so the front face with the nameplate is clearly visible.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">b</div><span>Place the laptop on the bench with the angled wedge. Open to fullscreen. Screen should face visitors walking past.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">c</div><span>Gavel + block: top-left of bench. Info plaque tent card: top-right of bench.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">d</div><span>Floor X: measured 65–70cm from webcam lens. Place the "STAND HERE" stake sign just beside the X.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">e</div><span>Power cables and charger: routed under the table, completely hidden. No cables should be visible from visitor side.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num-col" style="background:var(--phase5)">16</div>
+      <div>
+        <div class="step-body">
+          <div class="step-title-row">
+            <span class="step-title">Launch & Lock the Display</span>
+            <span class="step-tag tag-tech">Tech</span>
+            <span class="step-tag tag-final">Final</span>
+          </div>
+          <div class="step-desc">Set the laptop so it auto-launches into fullscreen mode and cannot accidentally be closed or exit during the demo.</div>
+          <ul class="sub-steps">
+            <li class="sub-step"><div class="sub-step-bullet">a</div><span>Set laptop screen brightness to maximum.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">b</div><span>Disable screensaver and sleep mode: Settings → Power → Never sleep when plugged in.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">c</div><span>Run: <code style="background:#f0f0f0;padding:2px 6px;border-radius:3px;font-size:12px;">python moodcourt.py</code> — app launches in fullscreen automatically.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">d</div><span>Tape a small note to the bench back (not visible to visitors): <em>"Press ESC to quit. Press SPACE = Appeal button."</em></span></li>
+            <li class="sub-step"><div class="sub-step-bullet">e</div><span>Plug in laptop charger. Tuck charger brick under table. Tape charging cable flat along table leg.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num-col" style="background:var(--phase5)">17</div>
+      <div>
+        <div class="step-body">
+          <div class="step-title-row">
+            <span class="step-title">Full Dress Rehearsal</span>
+            <span class="step-tag tag-test">Test</span>
+            <span class="step-tag tag-final">Final</span>
+          </div>
+          <div class="step-desc">Have one teammate act as the judge and one as the visitor. Run through the complete demo script. Time it. Fix anything that feels slow, confusing, or broken.</div>
+          <ul class="sub-steps">
+            <li class="sub-step"><div class="sub-step-bullet">a</div><span>Visitor walks up cold — no explanation given. Do they figure out to stand on the X? If not, make the floor sign bigger.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">b</div><span>Visitor smiles. Does the verdict appear within 3 seconds? If slower, check lighting on their face.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">c</div><span>Press SPACE (appeal). Does a new, funnier verdict appear? Rehearse your verbal reaction to this moment — your laugh sells it.</span></li>
+            <li class="sub-step"><div class="sub-step-bullet">d</div><span>Practice your one-sentence pitch: <em>"It reads your face, decides what emotion you're guilty of, and sentences you accordingly. The appeal always makes it worse."</em></span></li>
+          </ul>
+          <div class="callout callout-secret">
+            <div class="callout-icon">🎭</div>
+            <div class="callout-text"><strong>The secret of a great demo:</strong> Your own reaction to the verdict is part of the show. When the judge gets a ridiculous verdict, laugh with them. Your enthusiasm is contagious. Practice being surprised even when you've seen it 50 times.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     WIRING DIAGRAM
+════════════════════════════════════════ -->
+<div class="wiring-section">
+  <div class="wiring-title">⚡ WIRING & SOFTWARE ARCHITECTURE</div>
+  <div class="wiring-sub">THE ENTIRE SYSTEM IS ONE USB CABLE · NO INTERNET · NO CLOUD · NO COST</div>
+
+  <div class="wiring-diagram">
+    <div class="wire-node">
+      <div class="wire-node-icon">📷</div>
+      <div class="wire-node-name">WEBCAM</div>
+      <div class="wire-node-detail">USB webcam<br/>or built-in camera<br/>faces visitor X</div>
+    </div>
+    <div class="wire-arrow">
+      <div style="display:flex;align-items:center;">
+        <div class="wire-line"></div>
+        <div class="wire-arrow-head">▶</div>
+      </div>
+      <div class="wire-label">USB-A</div>
+    </div>
+    <div class="wire-node" style="border-color:rgba(245,197,24,0.5);background:rgba(245,197,24,0.08)">
+      <div class="wire-node-icon">💻</div>
+      <div class="wire-node-name">LAPTOP</div>
+      <div class="wire-node-detail">Runs Python locally<br/>No internet needed<br/>after first install</div>
+    </div>
+    <div class="wire-arrow">
+      <div style="display:flex;align-items:center;">
+        <div class="wire-line"></div>
+        <div class="wire-arrow-head">▶</div>
+      </div>
+      <div class="wire-label">DISPLAY</div>
+    </div>
+    <div class="wire-node">
+      <div class="wire-node-icon">🖥️</div>
+      <div class="wire-node-name">SCREEN</div>
+      <div class="wire-node-detail">Fullscreen Pygame<br/>Cartoon courtroom<br/>live verdict text</div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin:16px 0 32px;font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:2px;">
+    THAT'S IT. ONE CABLE. NO ROUTER. NO SERVER. NO API KEY. NO COST.
+  </div>
+
+  <div class="software-stack">
+    <div class="sw-card">
+      <div class="sw-card-icon">🎭</div>
+      <div class="sw-card-name">DeepFace</div>
+      <div class="sw-card-role">Reads webcam frame → outputs emotion label (happy/sad/angry etc.) every 0.8 seconds in background thread</div>
+      <div class="sw-install">pip install deepface</div>
+    </div>
+    <div class="sw-card">
+      <div class="sw-card-icon">🎮</div>
+      <div class="sw-card-name">Pygame</div>
+      <div class="sw-card-role">Renders the animated courtroom scene at 60fps. Draws particles, cartoon characters, verdict text, background colors</div>
+      <div class="sw-install">pip install pygame</div>
+    </div>
+    <div class="sw-card">
+      <div class="sw-card-icon">📷</div>
+      <div class="sw-card-name">OpenCV</div>
+      <div class="sw-card-role">Captures webcam frames and passes them to DeepFace for analysis. Also draws face bounding box overlay</div>
+      <div class="sw-install">pip install opencv-python</div>
+    </div>
+    <div class="sw-card">
+      <div class="sw-card-icon">🎲</div>
+      <div class="sw-card-name">random (built-in)</div>
+      <div class="sw-card-role">Powers the "Nonsense Law Generator" — randomly combines charge + verdict + legal basis for infinite unique sentences</div>
+      <div class="sw-install">no install needed</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     EMOTION REACTIONS
+════════════════════════════════════════ -->
+<div class="reactions-section">
+  <div class="reactions-title">🎭 EMOTION → VERDICT REFERENCE</div>
+  <div class="reactions-sub">What the software shows for each emotion. Memorize this for your demo explanation.</div>
+  <div class="reactions-grid">
+
+    <div class="reaction-card">
+      <div class="reaction-header" style="background:#fff8e1;">
+        <div class="reaction-emoji">😄</div>
+        <div>
+          <div class="reaction-emotion" style="color:#c9960a;">HAPPY</div>
+        </div>
+      </div>
+      <div class="reaction-body">
+        <div class="reaction-row"><div class="r-label">SCENE</div><div class="r-val">Gold/yellow confetti raining, bouncing smiley faces, judge character sweating and panicking</div></div>
+        <div class="reaction-row"><div class="r-label">CHARGE</div><div class="r-val">"Being suspiciously cheerful on a Monday"</div></div>
+        <div class="reaction-row"><div class="r-label">VERDICT</div><div class="r-val">"Acquitted on grounds of sheer audacity"</div></div>
+      </div>
+    </div>
+
+    <div class="reaction-card">
+      <div class="reaction-header" style="background:#fdecea;">
+        <div class="reaction-emoji">😠</div>
+        <div>
+          <div class="reaction-emotion" style="color:#d93025;">ANGRY</div>
+        </div>
+      </div>
+      <div class="reaction-body">
+        <div class="reaction-row"><div class="r-label">SCENE</div><div class="r-val">Red pulsing background, screen shakes, cartoon smoke clouds, lightning bolts</div></div>
+        <div class="reaction-row"><div class="r-label">CHARGE</div><div class="r-val">"Running on zero sleep and cold coffee"</div></div>
+        <div class="reaction-row"><div class="r-label">VERDICT</div><div class="r-val">"Guilty. Obviously. Look at yourself."</div></div>
+      </div>
+    </div>
+
+    <div class="reaction-card">
+      <div class="reaction-header" style="background:#e8f0fc;">
+        <div class="reaction-emoji">😲</div>
+        <div>
+          <div class="reaction-emotion" style="color:#1a56a0;">SURPRISED</div>
+        </div>
+      </div>
+      <div class="reaction-body">
+        <div class="reaction-row"><div class="r-label">SCENE</div><div class="r-val">Explosion of shapes from center, giant cartoon eyes, dramatic comic lines radiating outward</div></div>
+        <div class="reaction-row"><div class="r-label">CHARGE</div><div class="r-val">"Having eyebrows in restricted airspace"</div></div>
+        <div class="reaction-row"><div class="r-label">VERDICT</div><div class="r-val">"Case dismissed — court is not ready for this energy"</div></div>
+      </div>
+    </div>
+
+    <div class="reaction-card">
+      <div class="reaction-header" style="background:#e8f0fc;">
+        <div class="reaction-emoji">😢</div>
+        <div>
+          <div class="reaction-emotion" style="color:#1a56a0;">SAD</div>
+        </div>
+      </div>
+      <div class="reaction-body">
+        <div class="reaction-row"><div class="r-label">SCENE</div><div class="r-val">Blue rain drops falling, tiny cartoon rain cloud, judge crying with defendant</div></div>
+        <div class="reaction-row"><div class="r-label">CHARGE</div><div class="r-val">"Feeling things in a public space"</div></div>
+        <div class="reaction-row"><div class="r-label">VERDICT</div><div class="r-val">"Ordered to hydrate immediately. Case dismissed."</div></div>
+      </div>
+    </div>
+
+    <div class="reaction-card">
+      <div class="reaction-header" style="background:#f3e8ff;">
+        <div class="reaction-emoji">😨</div>
+        <div>
+          <div class="reaction-emotion" style="color:#6b21a8;">FEAR</div>
+        </div>
+      </div>
+      <div class="reaction-body">
+        <div class="reaction-row"><div class="r-label">SCENE</div><div class="r-val">Dark purple background, flickering screen, shadows creeping from corners</div></div>
+        <div class="reaction-row"><div class="r-label">CHARGE</div><div class="r-val">"Radiating chaotic neutral energy"</div></div>
+        <div class="reaction-row"><div class="r-label">VERDICT</div><div class="r-val">"Fined one (1) philosophical crisis"</div></div>
+      </div>
+    </div>
+
+    <div class="reaction-card">
+      <div class="reaction-header" style="background:#f0f0f0;">
+        <div class="reaction-emoji">😐</div>
+        <div>
+          <div class="reaction-emotion" style="color:#555;">NEUTRAL</div>
+        </div>
+      </div>
+      <div class="reaction-body">
+        <div class="reaction-row"><div class="r-label">SCENE</div><div class="r-val">Grey scanning animation, radar sweep lines, "AWAITING EVIDENCE" pulsing text</div></div>
+        <div class="reaction-row"><div class="r-label">CHARGE</div><div class="r-val">"Existing too loudly in a quiet universe"</div></div>
+        <div class="reaction-row"><div class="r-label">VERDICT</div><div class="r-val">"Case filed. Jury is still loading."</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     DEMO SCRIPT
+════════════════════════════════════════ -->
+<div class="demo-section">
+  <div class="demo-title">🎬 DEMO SCRIPT — SECOND BY SECOND</div>
+  <div class="demo-sub">What happens when the judge walks up. Practice this until it's natural.</div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="tl-time">0:00<span class="tl-time-sub">sec</span></div>
+      <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div class="tl-content">
+        <div class="tl-actor">FROM ACROSS THE ROOM</div>
+        <div class="tl-action">Judge sees the bench from 4–5 meters away</div>
+        <div class="tl-detail">They see: a black podium, a glowing screen with cartoon animations, and a yellow X on the floor. The word "MOOD COURT" is readable from 3 meters. Curiosity is triggered before anyone speaks.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-time">0:15<span class="tl-time-sub">sec</span></div>
+      <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div class="tl-content">
+        <div class="tl-actor">JUDGE WALKS OVER</div>
+        <div class="tl-action">They read the floor sign: "STAND ON THE X → YOUR FACE IS EVIDENCE"</div>
+        <div class="tl-detail">Most people step on the X without being asked. The sign does the work. You say nothing yet — let them discover it.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-time">0:25<span class="tl-time-sub">sec</span></div>
+      <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div class="tl-content">
+        <div class="tl-actor">SYSTEM REACTS</div>
+        <div class="tl-action">The screen detects their face and emotion — verdict appears</div>
+        <div class="tl-detail">The scene animates. Their emotion label appears. A cartoon judge character reacts. A procedurally generated charge and verdict appear at the bottom.</div>
+        <div class="tl-screen">⚖ CHARGE: Existing too confidently near a camera<br/>VERDICT: Guilty. Obviously. Look at yourself.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-time">0:35<span class="tl-time-sub">sec</span></div>
+      <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div class="tl-content">
+        <div class="tl-actor">YOU EXPLAIN</div>
+        <div class="tl-action">One sentence: "It reads your face in real-time, detects your emotional state, and the court delivers a legally binding absurd verdict — all running locally, zero internet, zero cost."</div>
+        <div class="tl-detail">Keep it short. The demo is already running. Don't over-explain.</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-time">0:50<span class="tl-time-sub">sec</span></div>
+      <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div class="tl-content">
+        <div class="tl-actor">THE APPEAL</div>
+        <div class="tl-action">Press SPACEBAR. Say: "They can appeal… but the appeal always makes it worse."</div>
+        <div class="tl-detail">New verdict generates. It's more absurd. Everyone laughs. The judge laughs. This is the moment they remember.</div>
+        <div class="tl-screen">⚖ APPEAL DENIED · NEW CHARGE ADDED<br/>Amendment XII: Nobody Asked But Here We Are</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-time">1:10<span class="tl-time-sub">sec</span></div>
+      <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+      <div class="tl-content">
+        <div class="tl-actor">TECHNICAL DEPTH</div>
+        <div class="tl-action">If the judge asks "how does it work?" — explain DeepFace and affective computing</div>
+        <div class="tl-detail">"It uses DeepFace — a library that runs a ResNet model trained on facial action units. It classifies 7 emotions. The scene generator and verdict are procedural — randomized sentence templates so every verdict is unique. The whole thing runs offline on this laptop."</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-time">1:30<span class="tl-time-sub">sec</span></div>
+      <div class="tl-dot-col"><div class="tl-dot"></div></div>
+      <div class="tl-content">
+        <div class="tl-actor">CROWD EFFECT</div>
+        <div class="tl-action">Other visitors are now watching. They want their turn.</div>
+        <div class="tl-detail">The demo now runs itself. Your job is done. Step back, let others step on the X. A crowd around your booth is the highest signal to passing judges that something interesting is happening.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     FINAL CHECKLIST
+════════════════════════════════════════ -->
+<div class="final-section">
+  <div class="final-title">✅ PRE-EXHIBITION CHECKLIST</div>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:2px;margin-bottom:32px;">PRINT THIS PAGE. CHECK EVERY BOX THE MORNING OF THE EXHIBITION.</div>
+
+  <div class="checklist-grid">
+    <div class="checklist-group">
+      <div class="checklist-group-title">🏗️ Physical Build</div>
+      <div class="final-check"><div class="f-box"></div>Bench is rigid — does not wobble when pushed</div>
+      <div class="final-check"><div class="f-box"></div>All cardboard covered in black paper — no brown showing</div>
+      <div class="final-check"><div class="f-box"></div>Yellow accent tape lines are perfectly level</div>
+      <div class="final-check"><div class="f-box"></div>Nameplate "MOOD COURT — POPULATION: YOU" is visible from 3m</div>
+      <div class="final-check"><div class="f-box"></div>Gavel + gavel block are on the bench top-left</div>
+      <div class="final-check"><div class="f-box"></div>Info plaque tent card is on bench top-right</div>
+      <div class="final-check"><div class="f-box"></div>Floor X is made of yellow tape, clearly visible</div>
+      <div class="final-check"><div class="f-box"></div>"STAND HERE" sign is upright and legible</div>
+      <div class="final-check"><div class="f-box"></div>No visible cables from the visitor's side</div>
+    </div>
+    <div class="checklist-group">
+      <div class="checklist-group-title">💻 Tech & Software</div>
+      <div class="final-check"><div class="f-box"></div>DeepFace, Pygame, OpenCV all installed</div>
+      <div class="final-check"><div class="f-box"></div>Software tested at home at least once fully</div>
+      <div class="final-check"><div class="f-box"></div>All 7 emotions tested and verified</div>
+      <div class="final-check"><div class="f-box"></div>Laptop plugged in to charger — not on battery</div>
+      <div class="final-check"><div class="f-box"></div>Sleep/screensaver is DISABLED</div>
+      <div class="final-check"><div class="f-box"></div>Screen brightness is MAX</div>
+      <div class="final-check"><div class="f-box"></div>Webcam angle tested at correct X distance</div>
+      <div class="final-check"><div class="f-box"></div>Fullscreen launches correctly on startup</div>
+      <div class="final-check"><div class="f-box"></div>SPACE bar appeal feature tested and working</div>
+      <div class="final-check"><div class="f-box"></div>Desk lamp brought if exhibition hall is dim</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="print-footer">
+  <div class="pf-left">⚖ MOOD COURT · BUILD MANUAL v1.0</div>
+  <div class="pf-right">
+    University CS Exhibition · 48-Hour Sprint<br/>
+    Budget: $0 · Build Time: ~3 Hours · 1 USB Cable
+  </div>
+</div>
+
+</body>
+</html>
